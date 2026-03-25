@@ -1,85 +1,46 @@
-[# Ex.No:3(A) INHERITANCE AND AGGREGATION
+# Ex.No:3(C) ABSTRACTION
 
 ## QUESTION:
+Create an abstract class TaxPayer with method calculateTax(). Create subclasses SalariedPerson and BusinessPerson.
 
-A library wants to maintain records of its members. All members share some common information: a unique member ID, the member’s name, and the date when they joined the library (membershipDate).
+For example:
 
-There are two types of members:
+Input	Result
+1
+50000
+5000.00
+1
+72500
+7250.00
 
-StudentMember: In addition to the base information, they have the course they are enrolled in (courseEnrolled).
 
-FacultyMember: In addition to the base information, they have the department they belong to (department).
-
-Your task is to write a program that:
-
-Reads exactly 4 member records.
-
-Each record starts with the type of member: "Student" or "Faculty".
-
-Then reads the required details according to the type.
-
-Displays the details of all four membersInput Format:
-
-Student
-M101
-Alice
-2023-01-15
-ComputerScience
-import java.util.Scanner;
-
-class Member {
-    String memberId;
-    String name;
-    String membershipDate;
-
-    Member(String memberId, String name, String membershipDate) {
-        this.memberId = memberId;
-        this.name = name;
-        this.membershipDate = membershipDate;
-    }
-
-    void display() {
-        System.out.println("Member ID: " + memberId);
-        System.out.println("Name: " + name);
-        System.out.println("Membership Date: " + membershipDate);
-    }
-}
-
-//Continue your Code here
 ## AIM:
-To write a Java program that demonstrates inheritance and polymorphism by creating a base class Member and two derived classes StudentMember and FacultyMember, storing multiple member objects in a list, and displaying their details dynamically based on their type.
 
+To write a Java program that demonstrates abstraction and runtime polymorphism using an abstract class TaxPayer and its subclasses SalariedPerson and BusinessPerson, each calculating tax differently based on income.
 ## ALGORITHM :
-1. Define a base class Member with attributes memberId, name, and membershipDate, along with a constructor and a display() method to print member details.
+1. Create an abstract class TaxPayer that declares an abstract method calculateTax().
 
-2. Create a subclass StudentMember that extends Member, adds the attribute courseEnrolled, and overrides the display() method to print additional details.
+2. Define a subclass SalariedPerson that extends TaxPayer, stores income, and implements calculateTax() by returning 10% of income.
 
-3. Create another subclass FacultyMember that extends Member, adds the attribute department, and overrides the display() method to print extra information.
+3. Define another subclass BusinessPerson that extends TaxPayer, stores income, and implements calculateTax() by returning 15% of income.
 
-4. In the main method, create a Scanner object to read input from the user.
+4. In the main method, create a Scanner object to read user input.
 
-5. Create an ArrayList to store objects of type Member.
+5. Read the taxpayer type (1 for salaried, any other value for business) and the income amount.
 
-6. Use a loop to continuously read input until an empty line is encountered.
+6. Based on the type, create the appropriate subclass object and store it in a reference of type TaxPayer.
 
-7. For each entry, read the type (Student/Faculty), member ID, name, membership date, and additional field.
+7. Use DecimalFormat to format the tax output to two decimal places.
 
-8. Based on the type, create either a StudentMember or FacultyMember object and add it to the list.
+8. Call the calculateTax() method using the object reference and print the formatted tax amount.
 
-9. After collecting all inputs, iterate through the list of members.
-
-10. Call the display() method on each object to print its details, demonstrating polymorphism.
-
-11. End the program.
-
-
-
+9. End the program.
 
 
 ## PROGRAM:
  ```
 /*
-Program to implement a Inheritance and Aggregation using Java
+Program to implement a Abstraction using Java
 Developed by: KUMUDHINI T
 RegisterNumber: 212222040084
 */
@@ -87,81 +48,47 @@ RegisterNumber: 212222040084
 
 ## SOURCE CODE:
 
-```
-import java.util.*;
-class Member {
-    String memberId;
-    String name;
-    String membershipDate;
-    Member(String memberId, String name, String membershipDate) {
-        this.memberId = memberId;
-        this.name = name;
-        this.membershipDate = membershipDate;
-    }
-    void display() {
-        System.out.println("Member ID: " + memberId);
-        System.out.println("Name: " + name);
-        System.out.println("Membership Date: " + membershipDate);
-    }
-}
-class StudentMember extends Member {
-    String courseEnrolled;
-    StudentMember(String memberId, String name, String membershipDate, String courseEnrolled) {
-        super(memberId, name, membershipDate);
-        this.courseEnrolled = courseEnrolled;
-    }
-    void display() {
-        super.display();
-        System.out.println("Student Member - Course Enrolled: " + courseEnrolled);
-    }
-}
-class FacultyMember extends Member {
-    String department;
 
-    FacultyMember(String memberId, String name, String membershipDate, String department) {
-        super(memberId, name, membershipDate);
-        this.department = department;
-    }
-    void display() {
-        super.display();
-        System.out.println("Faculty Member - Department: " + department);
-    }
+```
+import java.util.Scanner;
+import java.text.DecimalFormat;
+
+abstract class TaxPayer {
+    abstract double calculateTax();
 }
-public class prog {
+
+class SalariedPerson extends TaxPayer {
+    double income;
+    SalariedPerson(double income) { this.income = income; }
+    double calculateTax() { return income * 0.10; }
+}
+
+class BusinessPerson extends TaxPayer {
+    double income;
+    BusinessPerson(double income) { this.income = income; }
+    double calculateTax() { return income * 0.15; }
+}
+
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        ArrayList<Member> members = new ArrayList<>();
-        while (sc.hasNextLine()) {
-            String type = sc.nextLine().trim();
-            if (type.isEmpty()) break;
-            String memberId = sc.nextLine().trim();
-            String name = sc.nextLine().trim();
-            String membershipDate = sc.nextLine().trim();
-            String extra = sc.nextLine().trim();
-            if (type.equalsIgnoreCase("Student")) {
-                members.add(new StudentMember(memberId, name, membershipDate, extra));
-            } else if (type.equalsIgnoreCase("Faculty")) {
-                members.add(new FacultyMember(memberId, name, membershipDate, extra));
-            }
-        }
-        
-        for (Member m : members) {
-            m.display();
-            System.out.println();
-        }
+        int type = sc.nextInt();
+        double income = sc.nextDouble();
+        TaxPayer person = (type == 1) ? new SalariedPerson(income) : new BusinessPerson(income);
+        DecimalFormat df = new DecimalFormat("0.00");
+        System.out.println(df.format(person.calculateTax()));
     }
 }
-```
 
+```
 
 
 
 
 ## OUTPUT:
-<img width="1308" height="550" alt="image" src="https://github.com/user-attachments/assets/4fc35b2b-6128-43c3-960e-73ea2652cf34" />
+<img width="482" height="432" alt="image" src="https://github.com/user-attachments/assets/eff6bf74-8965-46f4-a94b-c5dbb4b2b8fe" />
 
 
 
 ## RESULT:
 The program has been executed successfully and the desired output has been obtained.
-
