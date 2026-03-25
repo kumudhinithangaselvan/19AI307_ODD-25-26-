@@ -1,45 +1,43 @@
-# Ex.No:5(D) THREAD PRIORITY
-
+# Ex.No:5(C)  FILE HANDLING USING JAVA
 ## QUESTION:
-Write a java program for set the priority and name of the current thread.
-
-Note : Read the threadname from the User
-
-Set the Priority as 2.
+Write a program to write multiple lines to a file using FileWriter.
 
 For example:
 
 Input	Result
-NewThread
-Priority of Thread: 2
-Name of Thread: NewThread
-Thread[NewThread,2,main]
+Hello world
+Welcome to Java
+exit
+File written successfully to multilines.txt
 
 
 ## AIM:
-To write a Java program that demonstrates setting the name and priority of a thread and displaying its details.
 
+To write a Java program that reads multiple lines from the user and writes them to a file using FileWriter.
 ## ALGORITHM :
-1. Create a Scanner to read the thread name from the user.
+1. Create a Scanner to read input from the user.
 
-2. Get the reference to the current thread using Thread.currentThread().
+2. Create a FileWriter object for the file multilines.txt.
 
-3. Set the thread’s name using setName().
+3. Use a loop to read each line from the user.
 
-4. Set the thread’s priority using setPriority().
+4. If the line is "exit", break the loop.
 
-5. Print the thread’s priority and name.
+5. Otherwise, write the line to the file followed by a newline.
 
-6. Print the thread object to display its details.
+6. Close the FileWriter.
+
+7. Print a message indicating the file has been written successfully.
+
 
 
 
 ## PROGRAM:
  ```
 /*
-Program to implement a Thread Priority Concept using Java
-Developed by: VELAN D
-RegisterNumber: 212222040176
+Program to implement a File Handling using Java
+Developed by: KUMUDHINI T
+RegisterNumber: 212222040084
 */
 ```
 
@@ -47,17 +45,23 @@ RegisterNumber: 212222040176
 
 
 ```
+import java.io.FileWriter;
 import java.util.Scanner;
-public class ThreadSetNamePriority {
+public class MultiLineWrite {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String name = sc.nextLine();
-        Thread t = Thread.currentThread();
-        t.setName(name);
-        t.setPriority(2);
-        System.out.println("Priority of Thread: " + t.getPriority());
-        System.out.println("Name of Thread: " + t.getName());
-        System.out.println(t);
+        try {
+            FileWriter writer = new FileWriter("multilines.txt");
+            while (true) {
+                String line = sc.nextLine();
+                if (line.equalsIgnoreCase("exit")) break;
+                writer.write(line + System.lineSeparator());
+            }
+            writer.close();
+            System.out.println("File written successfully to multilines.txt");
+        } catch (Exception e) {
+            System.out.println("An error occurred.");
+        }
     }
 }
 
@@ -67,9 +71,10 @@ public class ThreadSetNamePriority {
 
 
 ## OUTPUT:
+<img width="1037" height="270" alt="image" src="https://github.com/user-attachments/assets/afd22f9f-8065-4feb-bb06-45b744009bd5" />
 
-<img width="734" height="264" alt="image" src="https://github.com/user-attachments/assets/f124394d-aba1-43ed-9c70-07d4ccee01f0" />
 
 
 ## RESULT:
+
 The program has been executed successfully and the desired output has been obtained.
